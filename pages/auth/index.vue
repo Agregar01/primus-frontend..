@@ -68,17 +68,18 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-import AuthButton from '~/components/Buttons/AuthButton.vue'
+  import AuthButton from '~/components/Buttons/AuthButton.vue';
 
-export default {
-  name: 'LoginPage',
-  components: {
-    AuthButton,
-  },
-  head: () => ({
-    title: 'Sign In | Primus',
-  }),
-}
+  export default {
+    name: 'LoginPage',
+    components: {
+      AuthButton,
+    },
+    setup() {
+      useHead({
+        title: 'Sign In | Primus',
+      });
+    },
+  };
 </script>
 <style lang="css" scoped></style>

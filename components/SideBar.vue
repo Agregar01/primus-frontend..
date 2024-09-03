@@ -266,13 +266,13 @@
   </aside>
 </template>
 <script>
-export default {
-  name: 'SideBar',
-  props: {
-    isOpen: {
-      type: Boolean,
+  export default {
+    name: 'SideBar',
+    props: {
+      isOpen: {
+        type: Boolean,
+      },
     },
-  },
-}
+  };
 </script>
 <style lang=""></style>

@@ -2,22 +2,57 @@
   <aside
     classs="isOpen ? 'hidden sm:flex sm:flex-col' : ''"
     :class="
-      isOpen ? 'flex flex-col bg-stone-100 w-1/5 fixed h-screen' : 'hidden'
+      isOpen
+        ? 'flex flex-col bg-stone-100 w-2/3 lg:w-1/5 fixed h-screen'
+        : 'hidden'
     "
+    style="z-index: 2"
   >
-    <a
-      href="#"
-      class="inline-flex items-center justify-center h-20 w-full bg-transparent p-10"
-    >
-      <img
-        class="w-auto text-white"
-        src="https://res.cloudinary.com/empverify/image/upload/v1709014551/MicrosoftTeams-image_helqhy.png"
-      />
-    </a>
+    <div class="flex flex-row">
+      <a
+        href="#"
+        class="inline-flex items-center justify-center h-20 w-full bg-transparent p-10"
+      >
+        <img
+          class="w-auto text-white"
+          src="https://res.cloudinary.com/empverify/image/upload/v1709014551/MicrosoftTeams-image_helqhy.png"
+        />
+      </a>
+
+      <button class="lg:hidden md:hidden" @click="sidebarStore.closeSidebar()">
+        <svg
+          class="w-8 h-8"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <g id="Menu / Close_MD">
+              <path
+                id="Vector"
+                d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </div>
 
     <div class="flex-grow flex flex-col justify- text-gray-700">
       <nav class="flex flex-col mx-4 my-6 text-sm space-y-2">
-        <a
+        <nuxt-link
+          to="/"
           href="#"
           class="inline-flex items-center py-2 text-orange-600 bg-white rounded-lg px-2"
           :class="{ 'justify-start': menu, 'justify-center': menu == false }"
@@ -75,9 +110,9 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">Dashboard</span>
-        </a>
-        <a
-          href="#"
+        </nuxt-link>
+        <nuxt-link
+          to="/map"
           class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
           :class="{ 'justify-start': menu, 'justify-center': menu == false }"
         >
@@ -105,7 +140,7 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">Map</span>
-        </a>
+        </nuxt-link>
         <a
           href="#"
           class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
@@ -133,8 +168,8 @@
           </svg>
           <span class="ml-2" x-show="menu">Records</span>
         </a>
-        <a
-          href="#"
+        <nuxt-link
+          to="/"
           class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
           :class="{ 'justify-start': menu, 'justify-center': menu == false }"
         >
@@ -158,7 +193,7 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">People</span>
-        </a>
+        </nuxt-link>
 
         <a
           href="#"
@@ -273,6 +308,10 @@
         type: Boolean,
       },
     },
+    setup() {
+      const sidebarStore = useNavbarStore();
+      return { sidebarStore };
+    },
   };
 </script>
-<style lang=""></style>
+<style></style>

@@ -4,14 +4,14 @@
   >
     <div class="flex-grow">
       <div
-        class="flex flex-col items-start justify-center h-full px-4 py-4 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
+        class="flex flex-col items-start justify-center h-full px-4 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
       >
-        <span class="text-sm text-gray-700">Hotzone</span>
+        <!-- <span class="text-sm text-gray-700">Hotzone</span> -->
         <GoogleMap
           api-key="AIzaSyAqkH7R3KjvMzKP3F0hJkKag-8uyhNKS_0"
           :center="{ lat: 7.9465, lng: 0.1974 }"
           :zoom="6.1"
-          style="width: 100%; height: 300px"
+          style="width: 100%; height: 400px"
         />
       </div>
     </div>

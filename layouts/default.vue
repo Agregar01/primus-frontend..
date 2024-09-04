@@ -1,7 +1,7 @@
 <template>
   <div class="flex bg-white min-h-screen" x-data="{panel:false, menu:true}">
     <!-- Start of SideBar -->
-    <SideBar :is-open="sidebarStore.isOpen" />
+    <PSideBar :is-open="sidebarStore.isOpen" />
     <!-- End of SideBar -->
 
     <!-- Start of Dashboard -->
@@ -11,18 +11,13 @@
 </template>
 
 <script>
-  import SideBar from '~/components/SideBar.vue';
+  import PSideBar from '~/components/PSideBar.vue';
 
   export default {
-    // name: 'DashboardLayout',
     components: {
-      SideBar,
+      PSideBar,
     },
     setup: () => {
-      // useHead({
-      //   title: 'Dashboard | Primus',
-      // });
-
       const sidebarStore = useNavbarStore();
       return { sidebarStore };
     },

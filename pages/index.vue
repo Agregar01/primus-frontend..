@@ -82,10 +82,6 @@
         title: 'Dashboard | Primus',
       });
 
-      // definePageMeta({
-      //   layout: 'default',
-      // });
-
       const sidebarStore = useNavbarStore();
       return { sidebarStore };
     },

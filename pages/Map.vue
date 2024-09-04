@@ -31,6 +31,33 @@
         <section class="grid w-full">
           <AgentOverviewMap />
         </section>
+        <section class="grid md:grid-cols-1 lg:grid-cols-4 gap-3">
+          <div
+            class="flex flex-col md:col-span-3 md:row-span-2 bg-white shadow rounded-lg"
+          >
+            <div class="flex-grow">
+              <div
+                class="flex flex-col items-start justify-center h-full px-2 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
+              >
+                <AgentProgressDataTable />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2nd -->
+
+          <div
+            class="flex flex-col md:col-span-1 md:row-span-2 bg-white shadow rounded-lg"
+          >
+            <div class="flex-grow">
+              <div
+                class="flex flex-col items-start h-full px-2 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
+              >
+                <ClientRequestList />
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
     <!-- End of Dashboard-->
@@ -38,12 +65,16 @@
 </template>
 
 <script>
+  import { ref, onMounted } from 'vue';
   import AgentOverviewMap from '~/components/AgentOverviewMap.vue';
-
+  import AgentProgressDataTable from '~/components/AgentProgressDataTable.vue';
+  import ClientRequestList from '~/components/ClientRequestList.vue';
   export default {
     name: 'IndexPage',
     components: {
       AgentOverviewMap,
+      AgentProgressDataTable,
+      ClientRequestList,
     },
     setup: () => {
       useHead({
@@ -51,7 +82,9 @@
       });
 
       const sidebarStore = useNavbarStore();
-      return { sidebarStore };
+      return {
+        sidebarStore,
+      };
     },
   };
 </script>

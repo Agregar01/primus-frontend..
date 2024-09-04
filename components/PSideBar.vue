@@ -3,7 +3,7 @@
     classs="isOpen ? 'hidden sm:flex sm:flex-col' : ''"
     :class="
       isOpen
-        ? 'flex flex-col bg-stone-100 w-2/3 lg:w-1/5 fixed h-screen'
+        ? 'flex flex-col bg-stone-100 w-[250px] lg:w-1/5 fixed h-screen'
         : 'hidden'
     "
     style="z-index: 2"
@@ -302,7 +302,7 @@
 </template>
 <script>
   export default {
-    name: 'SideBar',
+    name: 'PSideBar',
     props: {
       isOpen: {
         type: Boolean,

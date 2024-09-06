@@ -1,6 +1,7 @@
 export const useNavbarStore = defineStore('navbarStore', {
   state: () => ({
     isOpen: true,
+    isLoggoutOpen: false,
   }),
 
   actions: {
@@ -14,6 +15,14 @@ export const useNavbarStore = defineStore('navbarStore', {
 
     closeSidebar() {
       this.isOpen = false;
+    },
+
+    openLoggout() {
+      this.isLoggoutOpen = true;
+    },
+
+    closeLoggout() {
+      this.isLoggoutOpen = false;
     },
   },
 });

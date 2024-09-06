@@ -54,8 +54,13 @@
         <nuxt-link
           to="/"
           href="#"
-          class="inline-flex items-center py-2 text-orange-600 bg-white rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          class="inline-flex items-center py-2 rounded-lg px-2"
+          :classs="{ 'justify-start': menu, 'justify-center': menu == false }"
+          :class="
+            route.path == '/'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 -0.5 25 25"
@@ -113,8 +118,12 @@
         </nuxt-link>
         <nuxt-link
           to="/map"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          class="inline-flex items-center py-2 focus:bg-gray-700 rounded-lg px-2"
+          :class="
+            route.path == '/map'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 0 24 24"
@@ -142,9 +151,16 @@
           <span class="ml-2" x-show="menu">Map</span>
         </nuxt-link>
         <a
-          href="#"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          @click="toggleRecord()"
+          class="cursor-pointer inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
+          :classs="{ 'justify-start': menu, 'justify-center': menu == false }"
+          :class="
+            route.path == '/records' ||
+            route.path == '/records/' ||
+            route.path == '/records/financials'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 0 192 192"
@@ -168,10 +184,49 @@
           </svg>
           <span class="ml-2" x-show="menu">Records</span>
         </a>
-        <nuxt-link
-          to="/"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+        <div
+          :class="
+            accessRecord ||
+            route.path == '/records/' ||
+            route.path == '/records/financials'
+              ? 'flex flex-col gap-3 pl-12 transition-transform duration-500 transform translate-x-0'
+              : 'hidden'
+          "
+        >
+          <nuxt-link
+            to="/records/"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/records' || route.path == '/records/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Cases</nuxt-link
+          >
+
+          <nuxt-link
+            to="/records/financials"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/records/financials' ||
+              route.path == '/records/financials/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Financials</nuxt-link
+          >
+        </div>
+
+        <a
+          @click="togglePeople()"
+          class="cursor-pointer inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
+          :class="
+            route.path == '/people' ||
+            route.path == '/people/' ||
+            route.path == '/people/account-management'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             fill="currentColor"
@@ -193,7 +248,40 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">People</span>
-        </nuxt-link>
+        </a>
+        <div
+          :class="
+            accessPeople ||
+            route.path == '/people' ||
+            route.path == '/people/' ||
+            route.path == '/people/account-management'
+              ? 'flex flex-col gap-3 pl-12 transition-transform duration-500 transform translate-x-0'
+              : 'hidden'
+          "
+        >
+          <nuxt-link
+            to="/people"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/people' || route.path == '/people/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Agents</nuxt-link
+          >
+
+          <nuxt-link
+            to="/people/account-management"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/people/account-management' ||
+              route.path == '/people/account-management/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Account Management</nuxt-link
+          >
+        </div>
 
         <a
           href="#"
@@ -271,6 +359,7 @@
 
           <a
             href="#"
+            @click="sidebarStore.openLoggout()"
             class="inline-flex items-center py-2 hover:text-orange-400 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
             :class="{ 'justify-start': menu, 'justify-center': menu == false }"
           >
@@ -301,6 +390,7 @@
   </aside>
 </template>
 <script>
+  import { ref } from 'vue';
   export default {
     name: 'PSideBar',
     props: {
@@ -310,7 +400,34 @@
     },
     setup() {
       const sidebarStore = useNavbarStore();
-      return { sidebarStore };
+      const route = useRoute();
+      const accessRecord = ref(false);
+      const accessPeople = ref(false);
+
+      const toggleRecord = () => {
+        accessRecord.value = !accessRecord.value;
+      };
+      const togglePeople = () => {
+        accessPeople.value = !accessPeople.value;
+      };
+
+      // Control modal visibility
+      const showModal = ref(false);
+
+      // Handle logout logic (you can replace this with actual logic)
+      const logout = () => {
+        showModal.value = false;
+        alert('Logged out'); // Replace this with your actual logout logic
+      };
+
+      return {
+        sidebarStore,
+        route,
+        accessRecord,
+        toggleRecord,
+        accessPeople,
+        togglePeople,
+      };
     },
   };
 </script>

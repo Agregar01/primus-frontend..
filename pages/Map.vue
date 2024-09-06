@@ -37,7 +37,7 @@
           >
             <div class="flex-grow">
               <div
-                class="flex flex-col items-start justify-center h-full px-2 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
+                class="flex flex-col items-start h-full px-2 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
               >
                 <AgentProgressDataTable />
               </div>

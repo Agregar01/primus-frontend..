@@ -4,7 +4,7 @@
   >
     <div class="flex-grow">
       <div
-        class="flex flex-col items-start justify-center h-full px-4 py-2 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
+        class="flex flex-col items-start justify-center h-full px-1 py-1 text-gray-400 text-3xl font-semibold bg-white rounded-md border border-orange-500"
       >
         <!-- <span class="text-sm text-gray-700">Hotzone</span> -->
         <GoogleMap

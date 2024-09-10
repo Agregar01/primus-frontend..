@@ -1,0 +1,29 @@
+{
+  // Use Prettier as the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Enable format on save
+  "editor.formatOnSave": true,
+
+  // Enable format on paste
+  "editor.formatOnPaste": true,
+
+  // Enable format on type
+  "editor.formatOnType": true,
+
+  // Specify formatting for Vue files
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Prettier configuration
+  "prettier.singleQuote": true, // Use single quotes instead of double quotes
+  "prettier.semi": true, // Add semicolons at the end of statements
+  "prettier.tabWidth": 2, // Use 2 spaces per indentation level
+  "prettier.useTabs": false, // Use spaces instead of tabs
+  "prettier.trailingComma": "es5", // Add trailing commas where valid in ES5 (objects, arrays, etc.)
+  "prettier.bracketSpacing": true, // Print spaces between brackets in object literals
+  "prettier.vueIndentScriptAndStyle": true, // Indent the content inside <script> and <style> tags in Vue files
+  "prettier.endOfLine": "lf", // Set line endings to LF (Linux/macOS style)
+  "prettier.arrowParens": "always" // Always include parentheses around arrow function parameters
+}

@@ -2,25 +2,65 @@
   <aside
     classs="isOpen ? 'hidden sm:flex sm:flex-col' : ''"
     :class="
-      isOpen ? 'flex flex-col bg-stone-100 w-1/5 fixed h-screen' : 'hidden'
+      isOpen
+        ? 'flex flex-col bg-stone-100 w-[250px] lg:w-1/5 fixed h-screen'
+        : 'hidden'
     "
+    style="z-index: 2"
   >
-    <a
-      href="#"
-      class="inline-flex items-center justify-center h-20 w-full bg-transparent p-10"
-    >
-      <img
-        class="w-auto text-white"
-        src="https://res.cloudinary.com/empverify/image/upload/v1709014551/MicrosoftTeams-image_helqhy.png"
-      />
-    </a>
+    <div class="flex flex-row">
+      <a
+        href="#"
+        class="inline-flex items-center justify-center h-20 w-full bg-transparent p-10"
+      >
+        <img
+          class="w-auto text-white"
+          src="https://res.cloudinary.com/empverify/image/upload/v1709014551/MicrosoftTeams-image_helqhy.png"
+        />
+      </a>
+
+      <button class="lg:hidden md:hidden" @click="sidebarStore.closeSidebar()">
+        <svg
+          class="w-8 h-8"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <g id="Menu / Close_MD">
+              <path
+                id="Vector"
+                d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </div>
 
     <div class="flex-grow flex flex-col justify- text-gray-700">
       <nav class="flex flex-col mx-4 my-6 text-sm space-y-2">
-        <a
+        <nuxt-link
+          to="/"
           href="#"
-          class="inline-flex items-center py-2 text-orange-600 bg-white rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          class="inline-flex items-center py-2 rounded-lg px-2"
+          :classs="{ 'justify-start': menu, 'justify-center': menu == false }"
+          :class="
+            route.path == '/'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 -0.5 25 25"
@@ -75,11 +115,15 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">Dashboard</span>
-        </a>
-        <a
-          href="#"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+        </nuxt-link>
+        <nuxt-link
+          to="/map"
+          class="inline-flex items-center py-2 focus:bg-gray-700 rounded-lg px-2"
+          :class="
+            route.path == '/map'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 0 24 24"
@@ -105,11 +149,18 @@
             </g>
           </svg>
           <span class="ml-2" x-show="menu">Map</span>
-        </a>
+        </nuxt-link>
         <a
-          href="#"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          @click="toggleRecord()"
+          class="cursor-pointer inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
+          :classs="{ 'justify-start': menu, 'justify-center': menu == false }"
+          :class="
+            route.path == '/records' ||
+            route.path == '/records/' ||
+            route.path == '/records/financials'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             viewBox="0 0 192 192"
@@ -133,10 +184,49 @@
           </svg>
           <span class="ml-2" x-show="menu">Records</span>
         </a>
+        <div
+          :class="
+            accessRecord ||
+            route.path == '/records/' ||
+            route.path == '/records/financials'
+              ? 'flex flex-col gap-3 pl-12 transition-transform duration-500 transform translate-x-0'
+              : 'hidden'
+          "
+        >
+          <nuxt-link
+            to="/records/"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/records' || route.path == '/records/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Cases</nuxt-link
+          >
+
+          <nuxt-link
+            to="/records/financials"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/records/financials' ||
+              route.path == '/records/financials/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Financials</nuxt-link
+          >
+        </div>
+
         <a
-          href="#"
-          class="inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
-          :class="{ 'justify-start': menu, 'justify-center': menu == false }"
+          @click="togglePeople()"
+          class="cursor-pointer inline-flex items-center py-2 hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
+          :class="
+            route.path == '/people' ||
+            route.path == '/people/' ||
+            route.path == '/people/account-management'
+              ? 'text-orange-600 bg-white '
+              : 'hover:text-orange-400 hover:bg-gray-700 focus:text-gray-400'
+          "
         >
           <svg
             fill="currentColor"
@@ -159,6 +249,39 @@
           </svg>
           <span class="ml-2" x-show="menu">People</span>
         </a>
+        <div
+          :class="
+            accessPeople ||
+            route.path == '/people' ||
+            route.path == '/people/' ||
+            route.path == '/people/account-management'
+              ? 'flex flex-col gap-3 pl-12 transition-transform duration-500 transform translate-x-0'
+              : 'hidden'
+          "
+        >
+          <nuxt-link
+            to="/people"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/people' || route.path == '/people/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Agents</nuxt-link
+          >
+
+          <nuxt-link
+            to="/people/account-management"
+            class="hover:text-orange-600"
+            :class="
+              route.path == '/people/account-management' ||
+              route.path == '/people/account-management/'
+                ? 'text-orange-600'
+                : ''
+            "
+            >Account Management</nuxt-link
+          >
+        </div>
 
         <a
           href="#"
@@ -236,6 +359,7 @@
 
           <a
             href="#"
+            @click="sidebarStore.openLoggout()"
             class="inline-flex items-center py-2 hover:text-orange-400 focus:text-gray-400 focus:bg-gray-700 rounded-lg px-2"
             :class="{ 'justify-start': menu, 'justify-center': menu == false }"
           >
@@ -266,13 +390,39 @@
   </aside>
 </template>
 <script>
-export default {
-  name: 'SideBar',
-  props: {
-    isOpen: {
-      type: Boolean,
+  import { ref } from 'vue';
+  import { useAuth } from '~/composables/useAuth';
+  export default {
+    name: 'PSideBar',
+    props: {
+      isOpen: {
+        type: Boolean,
+      },
     },
-  },
-}
+    setup() {
+      const sidebarStore = useNavbarStore();
+      const route = useRoute();
+      const accessRecord = ref(false);
+      const accessPeople = ref(false);
+
+      const toggleRecord = () => {
+        accessRecord.value = !accessRecord.value;
+      };
+      const togglePeople = () => {
+        accessPeople.value = !accessPeople.value;
+      };
+
+      // Control modal visibility
+      const showModal = ref(false);
+      return {
+        sidebarStore,
+        route,
+        accessRecord,
+        toggleRecord,
+        accessPeople,
+        togglePeople,
+      };
+    },
+  };
 </script>
-<style lang=""></style>
+<style></style>

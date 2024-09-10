@@ -49,16 +49,18 @@
   </div>
 </template>
 <script lang="ts">
-import AuthButton from '~/components/Buttons/AuthButton.vue'
+  import AuthButton from '~/components/Buttons/AuthButton.vue';
 
-export default {
-  name: 'LoginPage',
-  components: {
-    AuthButton,
-  },
-  head: () => ({
-    title: 'Forgot Password | Primus',
-  }),
-}
+  export default {
+    name: 'LoginPage',
+    components: {
+      AuthButton,
+    },
+    setup() {
+      useHead({
+        title: 'Forgot Password | Primus',
+      });
+    },
+  };
 </script>
 <style lang="css" scoped></style>

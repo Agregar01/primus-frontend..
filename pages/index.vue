@@ -82,6 +82,10 @@
         title: 'Dashboard | Primus',
       });
 
+      definePageMeta({
+        middleware: 'auth',
+      });
+
       const sidebarStore = useNavbarStore();
       return { sidebarStore };
     },

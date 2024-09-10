@@ -21,7 +21,7 @@
           </button>
           <!-- Logout Button -->
           <button
-            @click="alert('I just got logged out!')"
+            @click="logoutAction()"
             class="px-4 py-2 bg-red-600 text-white rounded-md"
           >
             Logout
@@ -39,16 +39,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
   import PSideBar from '~/components/PSideBar.vue';
+  import { useAuth } from '~/composables/useAuth';
 
-  export default {
-    components: {
-      PSideBar,
-    },
-    setup: () => {
-      const sidebarStore = useNavbarStore();
-      return { sidebarStore };
-    },
+  const sidebarStore = useNavbarStore();
+  const { logout } = useAuth();
+
+  // Handle logout logic (you can replace this with actual logic)
+  const logoutAction = () => {
+    // alert('Hello logout');
+    // logout();
+    navigateTo('/auth');
   };
 </script>

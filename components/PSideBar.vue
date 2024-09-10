@@ -391,6 +391,7 @@
 </template>
 <script>
   import { ref } from 'vue';
+  import { useAuth } from '~/composables/useAuth';
   export default {
     name: 'PSideBar',
     props: {
@@ -413,13 +414,6 @@
 
       // Control modal visibility
       const showModal = ref(false);
-
-      // Handle logout logic (you can replace this with actual logic)
-      const logout = () => {
-        showModal.value = false;
-        alert('Logged out'); // Replace this with your actual logout logic
-      };
-
       return {
         sidebarStore,
         route,

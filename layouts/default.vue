@@ -49,7 +49,7 @@
   // Handle logout logic (you can replace this with actual logic)
   const logoutAction = () => {
     // alert('Hello logout');
-    // logout();
-    navigateTo('/auth');
+    logout();
+    navigateTo('/auth/');
   };
 </script>

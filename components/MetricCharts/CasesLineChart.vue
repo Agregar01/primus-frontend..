@@ -13,8 +13,10 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
+  import { watch } from '#imports';
   import { Line } from 'vue-chartjs';
+  import { useStatsCase } from '#imports';
   import {
     Chart as ChartJS,
     CategoryScale,
@@ -25,58 +27,116 @@
     Tooltip,
     Legend,
   } from 'chart.js';
-  export default {
-    name: 'CasesLineChart',
-    components: {
-      Line,
-    },
-    setup: () => {
-      // Register necessary Chart.js components
-      ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        LineElement,
-        Title,
-        Tooltip,
-        Legend
-      );
 
-      const chartData = {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-        ],
+  // Register necessary Chart.js components
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+  const dashboardStats = useStatsCase();
+  const chartData = ref(null);
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+    },
+  };
+
+  const stats = dashboardStats;
+  const currentMonthCount = new Date().getMonth();
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  let limit = 12;
+  if (currentMonthCount + 1 > 12) {
+    limit = 12;
+  } else {
+    limit = currentMonthCount + 1;
+  }
+  const displayMonths = months.slice(0, limit);
+
+  chartData.value = {
+    labels: displayMonths,
+    datasets: [{ label: 'Case(s)', backgroundColor: '#fcc6bf', data: [] }],
+  };
+
+  // const chartData = {
+  //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  //   datasets: [
+  //     {
+  //       label: 'Empverify',
+  //       backgroundColor: '#15A34A',
+  //       data: [40, 39, 10, 40, 39, 80, 40],
+  //     },
+  //     {
+  //       label: 'Validar',
+  //       backgroundColor: '#777',
+  //       data: [10, 23, 99, 34, 39, 80, 40],
+  //     },
+  //   ],
+  // };
+
+  chartData.value = {
+    labels: displayMonths,
+    datasets: [
+      {
+        label: 'Empverify',
+        backgroundColor: '#15A34A',
+        data: [40, 39, 10, 40, 39, 80, 40],
+      },
+      {
+        label: 'Validar',
+        backgroundColor: '#777',
+        data: [10, 23, 99, 34, 39, 80, 40],
+      },
+    ],
+  };
+
+  watch(
+    () => stats.loading,
+    () => {
+      chartData.value = {
+        labels: displayMonths,
         datasets: [
           {
             label: 'Empverify',
             backgroundColor: '#15A34A',
-            data: [40, 39, 10, 40, 39, 80, 40],
+            data: stats.empverify,
           },
           {
             label: 'Validar',
             backgroundColor: '#777',
-            data: [10, 23, 99, 34, 39, 80, 40],
+            data: stats.validar,
+          },
+          {
+            label: 'Other',
+            backgroundColor: '#6442ed',
+            data: stats.other,
           },
         ],
       };
-
-      const chartOptions = {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-          },
-        },
-      };
-
-      return { chartData, chartOptions };
     },
-  };
+    { immediate: true }
+  );
 </script>

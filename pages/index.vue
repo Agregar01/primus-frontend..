@@ -29,10 +29,10 @@
           </div>
         </div>
         <section class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <GrowthCard count="22" />
-          <AllCaseCard count="100" />
-          <PendingCaseCard count="46" />
-          <AgentCard count="35" />
+          <GrowthCard :count="totalClients" :loading="loading" />
+          <AllCaseCard :count="totalCases" :loading="loading" />
+          <PendingCaseCard :count="totalPendingCases" :loading="loading" />
+          <AgentCard :count="totalVerifiers" :loading="loading" />
         </section>
         <section
           class="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-flow-col gap-6"
@@ -55,7 +55,8 @@
   </NuxtLayout>
 </template>
 
-<script>
+<script setup>
+  import { useStatsCase } from '~/stores/stats';
   import GrowthCard from '~/components/MetricCards/GrowthCard.vue';
   import AllCaseCard from '~/components/MetricCards/AllCaseCard.vue';
   import PendingCaseCard from '~/components/MetricCards/PendingCaseCard.vue';
@@ -65,29 +66,27 @@
   import Hotzone from '~/components/MetricCharts/Hotzone';
   import UnconfirmedAgents from '~/components/MetricCharts/UnconfirmedAgents';
 
-  export default {
-    name: 'IndexPage',
-    components: {
-      GrowthCard,
-      AllCaseCard,
-      PendingCaseCard,
-      AgentCard,
-      CasesBarChart,
-      CasesLineChart,
-      Hotzone,
-      UnconfirmedAgents,
-    },
-    setup: () => {
-      useHead({
-        title: 'Dashboard | Primus',
-      });
+  const dashboardStats = useStatsCase();
 
-      definePageMeta({
-        middleware: 'auth',
-      });
+  useHead({
+    title: 'Dashboard | Primus',
+  });
 
-      const sidebarStore = useNavbarStore();
-      return { sidebarStore };
-    },
-  };
+  definePageMeta({
+    middleware: 'auth',
+  });
+
+  onMounted(() => {
+    dashboardStats.fetchStats();
+  });
+
+  const sidebarStore = useNavbarStore();
+
+  const {
+    loading,
+    totalCases,
+    totalClients,
+    totalPendingCases,
+    totalVerifiers,
+  } = storeToRefs(dashboardStats);
 </script>

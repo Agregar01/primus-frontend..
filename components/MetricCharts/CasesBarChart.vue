@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg"
+    :class="class"
   >
     <div class="flex-grow">
       <div
@@ -13,8 +14,11 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
+  import { watch } from 'vue';
   import { Bar } from 'vue-chartjs';
+  import { useStatsCase } from '#imports';
+
   import {
     Chart as ChartJS,
     Title,
@@ -24,40 +28,68 @@
     CategoryScale,
     LinearScale,
   } from 'chart.js';
-  export default {
-    name: 'CasesBarChart',
-    components: {
-      Bar,
-    },
-    setup: () => {
-      // Register necessary Chart.js components
-      ChartJS.register(
-        Title,
-        Tooltip,
-        Legend,
-        BarElement,
-        CategoryScale,
-        LinearScale
-      );
 
-      const chartData = {
-        labels: ['January', 'February', 'March'],
-        datasets: [
-          { label: 'Case(s)', backgroundColor: '#fcc6bf', data: [40, 20, 12] },
-        ],
-      };
+  ChartJS.register(
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale
+  );
 
-      const chartOptions = {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-          },
-        },
-      };
-
-      return { chartData, chartOptions };
+  const dashboardStats = useStatsCase();
+  const chartData = ref(null);
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
     },
   };
+
+  const stats = dashboardStats;
+  const currentMonthCount = new Date().getMonth();
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  let limit = 12;
+  if (currentMonthCount + 1 > 12) {
+    limit = 12;
+  } else {
+    limit = currentMonthCount + 1;
+  }
+  const displayMonths = months.slice(0, limit);
+
+  chartData.value = {
+    labels: displayMonths,
+    datasets: [{ label: 'Case(s)', backgroundColor: '#fcc6bf', data: [] }],
+  };
+
+  watch(
+    () => stats.cases,
+    () => {
+      chartData.value = {
+        labels: displayMonths,
+        datasets: [
+          { label: 'Case(s)', backgroundColor: '#fcc6bf', data: stats.cases },
+        ],
+      };
+    },
+    { immediate: true }
+  );
 </script>

@@ -1,6 +1,7 @@
 <template lang="">
   <div
     class="flex items-center p-3 border border-orange-500 bg-white shadow rounded-lg"
+    :class="loading ? 'opacity-30' : ''"
   >
     <div
       class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-red-600 bg-red-200 rounded-full mr-6"
@@ -38,20 +39,24 @@
     <div class="flex flex-col">
       <span class="block text-xs text-gray-500">Pending Cases</span>
       <div class="flex flex-row">
-        <span class="block text-2xl font-bold">20</span>
+        <span class="block text-2xl font-bold">{{ count }}</span>
         <span class="mt-2 ml-2 text-xs">Cases</span>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-export default {
-  name: 'PendingCaseCard',
-  props: {
-    count: {
-      type: Number,
-      required: true,
+  export default {
+    name: 'PendingCaseCard',
+    props: {
+      count: {
+        type: Number,
+        required: true,
+      },
+      loading: {
+        type: Boolean,
+        default: false,
+      },
     },
-  },
-}
+  };
 </script>

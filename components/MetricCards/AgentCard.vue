@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex items-center p-3 border border-orange-500 bg-white shadow rounded-lg"
+    :class="loading ? 'opacity-30' : ''"
   >
     <div
       class="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-green-600 bg-green-100 rounded-full mr-6"
@@ -30,13 +31,17 @@
   </div>
 </template>
 <script lang="ts">
-export default {
-  name: 'AgentCard',
-  props: {
-    count: {
-      type: Number,
-      required: true,
+  export default {
+    name: 'AgentCard',
+    props: {
+      count: {
+        type: Number,
+        required: true,
+      },
+      loading: {
+        type: Boolean,
+        default: false,
+      },
     },
-  },
-}
+  };
 </script>

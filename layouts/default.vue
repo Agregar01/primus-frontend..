@@ -48,7 +48,7 @@
 
   // Handle logout logic (you can replace this with actual logic)
   const logoutAction = () => {
-    // alert('Hello logout');
+    sidebarStore.closeLoggout();
     logout();
     navigateTo('/auth/');
   };

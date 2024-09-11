@@ -51,6 +51,14 @@
 
     <div class="flex-grow flex flex-col justify- text-gray-700">
       <nav class="flex flex-col mx-4 my-6 text-sm space-y-2">
+        <div
+          class="flex flex-col gap-1 mb-[20px] px-3 bg-gray-200 py-2 rounded-md"
+        >
+          <span class="text-gray-800 font-semibold text-md">{{
+            fullname
+          }}</span>
+          <span class="text-xs">Administrator</span>
+        </div>
         <nuxt-link
           to="/"
           href="#"
@@ -401,9 +409,14 @@
     },
     setup() {
       const sidebarStore = useNavbarStore();
+      const { user } = useAuth();
       const route = useRoute();
       const accessRecord = ref(false);
       const accessPeople = ref(false);
+
+      const fullname = computed(
+        () => `${user.value?.firstName} ${user.value?.lastName}` || 'Guest'
+      );
 
       const toggleRecord = () => {
         accessRecord.value = !accessRecord.value;
@@ -421,6 +434,7 @@
         toggleRecord,
         accessPeople,
         togglePeople,
+        fullname,
       };
     },
   };

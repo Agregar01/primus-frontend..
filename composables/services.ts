@@ -146,3 +146,38 @@ export const getDashboardStats = async (): Promise<any> => {
     return { status: 500, response: null };
   }
 };
+
+export const getDashboardHotzones = async (): Promise<any> => {
+  try {
+    let statusCode = 0;
+    let responseData: any = null;
+    const basicAuth = 'Basic ' + btoa('user:user');
+    const { data, error } = await useFetch<any>(
+      `${BASEURL}/primus/cases/surge`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+          Authorization: basicAuth,
+        },
+        onResponse({ response }) {
+          statusCode = response.status;
+        },
+        onResponseError({ response }) {
+          statusCode = response.status;
+        },
+      }
+    );
+
+    if (error.value) {
+      responseData = null;
+    } else {
+      responseData = data.value;
+    }
+
+    return { status: statusCode, response: responseData };
+  } catch (err) {
+    return { status: 500, response: null };
+  }
+};

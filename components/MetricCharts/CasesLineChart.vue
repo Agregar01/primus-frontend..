@@ -81,22 +81,6 @@
     datasets: [{ label: 'Case(s)', backgroundColor: '#fcc6bf', data: [] }],
   };
 
-  // const chartData = {
-  //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  //   datasets: [
-  //     {
-  //       label: 'Empverify',
-  //       backgroundColor: '#15A34A',
-  //       data: [40, 39, 10, 40, 39, 80, 40],
-  //     },
-  //     {
-  //       label: 'Validar',
-  //       backgroundColor: '#777',
-  //       data: [10, 23, 99, 34, 39, 80, 40],
-  //     },
-  //   ],
-  // };
-
   chartData.value = {
     labels: displayMonths,
     datasets: [

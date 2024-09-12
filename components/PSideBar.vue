@@ -52,7 +52,7 @@
     <div class="flex-grow flex flex-col justify- text-gray-700">
       <nav class="flex flex-col mx-4 my-6 text-sm space-y-2">
         <div
-          class="flex flex-col gap-1 mb-[20px] px-3 bg-gray-200 py-2 rounded-md"
+          class="flex flex-col gap-1 mb-[20px] px-3 bg-gray-200 py-2 rounded-md hover:shadow"
         >
           <span class="text-gray-800 font-semibold text-md">{{
             fullname

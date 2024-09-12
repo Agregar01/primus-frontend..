@@ -78,6 +78,7 @@
 
   onMounted(() => {
     dashboardStats.fetchStats();
+    dashboardStats.fetchHotzones();
   });
 
   const sidebarStore = useNavbarStore();
